@@ -289,7 +289,7 @@ source venv/bin/activate
 2. CD to your backend directory and run the following command:
 
 ```bash
-python manage.py shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 ```
 
 3. Copy the secret key output and paste it in your .env file:
