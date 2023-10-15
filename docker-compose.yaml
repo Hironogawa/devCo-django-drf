@@ -1,0 +1,80 @@
+version: "3.8"
+# author: "Hironogawa"
+# description: "This is a starter template for a django project."
+
+services:
+  postgres_db:
+    image: postgres:15
+    restart: always
+    env_file:
+      - ./backend/.env
+    # environment:
+    #   POSTGRES_DB: "postgres_db"
+    #   POSTGRES_USER: "postgres_user"
+    #   POSTGRES_PASSWORD: "postgres_password"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - backnet
+  backend:
+    build: ./backend
+    entrypoint: ["/bin/bash", "-c"]
+    # only automatically migrate and collect static files on startup and use runserver also only for local development
+    command: >
+      "python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      python manage.py runserver 0.0.0.0:8000 --nostatic"
+    # the --nostatic flag is used to prevent the default serving of static files by runserver, we use whitenoise for that
+    volumes:
+      - ./backend/:/var/www/app/backend/
+      - static_volumes:/var/www/app/backend/staticfiles/
+      - media_volumes:/var/www/app/backend/mediafiles/
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    # environment:
+    #   POSTGRES_HOST: "postgres_db"
+    #   POSTGRES_DB: "postgres_db"
+    #   POSTGRES_USER: "postgres_user"
+    #   POSTGRES_PASSWORD: "postgres_password"
+    networks:
+      - backnet
+      - nginxnet
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./setup/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volumes:/var/www/app/backend/staticfiles/
+      - media_volumes:/var/www/app/backend/mediafiles/
+    depends_on:
+      - backend
+    networks:
+      - nginxnet
+networks:
+  backnet:
+    driver: bridge
+  frontnet:
+    driver: bridge
+  nginxnet:
+    driver: bridge
+
+volumes:
+  postgres_db:
+    driver: local
+  static_volumes:
+    driver: local
+  media_volumes:
+    driver: local

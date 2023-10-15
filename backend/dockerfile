@@ -1,0 +1,25 @@
+# Use an official Python runtime as a parent image
+FROM python:3.12
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTEsrc 1
+ENV PYTHONUNBUFFERED 1
+
+ENV APP_DIR=/var/www/app/backend
+
+# Set the working directory to /src
+WORKDIR $APP_DIR
+
+# Install dependencies
+# Copy the current directory contents into the container at /src
+COPY --chown=appuser . $APP_DIR
+
+# COPY requirements.txt /var/www/app/backend/
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
+
+# to have access to the container in th the local network (docker compose) we neet to listen to any ip address 0.0.0.0
+ENTRYPOINT ["python3"] # this defines the default command to run when starting the container
+CMD ["manage.py", "runserver", "0.0.0.0:8000"] # this is the default command to run when starting the container for development
