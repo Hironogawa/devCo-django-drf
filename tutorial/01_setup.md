@@ -305,7 +305,7 @@ SECRET_KEY='your-secret-key'
 To configure the database we will use the django-environ package again. Also if we are working with postgres we need to install the psycopg packege. (psycopg2 will be deprecated in the future, that's why we'll use v3 that is in the psycopg package)
 
 ```bash
-pip install psycopg
+pip install "psycopg[binary]"
 ```
 
 Open the settings.py file and look for the DATABASES configuration. Replace it with the following:
