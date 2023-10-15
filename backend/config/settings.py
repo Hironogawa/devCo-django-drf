@@ -147,7 +147,7 @@ STATIC_URL = "/static/"
 
 # the name of the folders where the static files are stored (only if you are not using whitenoise or the django template engine)
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    # os.path.join(BASE_DIR, "static"), # add this only if you are working with the django template engine
 ]
 # Path where the static files are collected and stored
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

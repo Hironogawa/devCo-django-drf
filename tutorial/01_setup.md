@@ -302,7 +302,13 @@ SECRET_KEY='your-secret-key'
 
 ### Database settings
 
-To configure the database we will use the django-environ package again. Open the settings.py file and look for the DATABASES configuration. Replace it with the following:
+To configure the database we will use the django-environ package again. Also if we are working with postgres we need to install the psycopg packege. (psycopg2 will be deprecated in the future, that's why we'll use v3 that is in the psycopg package)
+
+```bash
+pip install psycopg
+```
+
+Open the settings.py file and look for the DATABASES configuration. Replace it with the following:
 
 ```python
 DATABASES = {
@@ -334,7 +340,7 @@ STATIC_URL = "/static/"
 
 # the name of the folders where the static files are stored (only if you are not using whitenoise or the django template engine)
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    # os.path.join(BASE_DIR, "static"), # add this only if you are working with the django template engine
 ]
 # Path where the static files are collected and stored
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
