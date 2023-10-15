@@ -28,8 +28,7 @@ services:
     entrypoint: ["/bin/bash", "-c"]
     # only automatically migrate and collect static files on startup and use runserver also only for local development
     command: >
-      "python manage.py migrate &&
-      python manage.py collectstatic --noinput &&
+      "python manage.py collectstatic --noinput &&
       python manage.py runserver 0.0.0.0:8000 --nostatic"
     # the --nostatic flag is used to prevent the default serving of static files by runserver, we use whitenoise for that
     volumes:
