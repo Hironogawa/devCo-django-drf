@@ -104,6 +104,7 @@ services:
       - backnet
   backend:
     build: ./backend
+    restart: always
     entrypoint: ["/bin/bash", "-c"]
     # only automatically migrate and collect static files on startup and use runserver also only for local development
     command: >
