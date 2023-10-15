@@ -1,3 +1,7 @@
+# Django Docker Compose Setup
+
+In this step we'll setup our Django project with to run in Docker containers. We'll use Docker Compose to orchestrate the containers. This setup helps us to have a local development environment that is as close as possible to the production environment. Also we don't have to install any depencecies like a database on our local machine. We can also easily extend our setup later with other containers like a Redis cache for example.
+
 ## Requirements
 
 - LTS version of Docker (https://docs.docker.com/install/)
