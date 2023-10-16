@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",  # should be placed before staticfiles
     "django.contrib.staticfiles",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -107,6 +108,10 @@ DATABASES = {
         "PORT": env("POSTGRES_PORT"),
     }
 }
+
+AUTH_USER_MODEL = (
+    "accounts.User"  # to set the custom user model as the default user model
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
