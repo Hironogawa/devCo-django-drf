@@ -57,7 +57,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",  # should be placed before staticfiles
     "django.contrib.staticfiles",
+    "rest_framework",
     "accounts",
+    "auth",
 ]
 
 MIDDLEWARE = [
